@@ -38,9 +38,10 @@ select * from tbl_brand;
 CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_product` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `product_title` VARCHAR(255) NOT NULL,
-    `active` ENUM('yes', 'no') DEFAULT 'yes' NOT NULL,
+    `active` ENUM('yes', 'no') NOT NULL DEFAULT 'yes',
     `category_id` BIGINT NOT NULL,
     `brand_id` BIGINT NOT NULL,
+    `quantity` INT NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`product_title`),
     FOREIGN KEY (`category_id`)
@@ -50,6 +51,18 @@ CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_product` (
 )  ENGINE=INNODB AUTO_INCREMENT=1;
 
 select * from tbl_product;
+
+-- -----------------------------------------------------
+-- table `e-comm-business`.`tbl_product_stock_info`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_product_stock_info` (
+    `id` BIGINT NOT NULL,
+    `in_stock_quantity` INT NOT NULL,
+    `maximum_order_capacity_per_buyer` INT NOT NULL,
+    PRIMARY KEY (`id`)
+)  ENGINE=INNODB AUTO_INCREMENT=1;
+
+select * from tbl_product_stock_info;
 
 SELECT 
     p.id,
@@ -64,4 +77,22 @@ FROM
     tbl_brand b ON b.id = p.brand_id;
     
 select count(*) as total_row from product_tbl;
+
+-- -----------------------------------------------------
+-- table `e-comm-business`.`tbl_buyer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_buyer` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`username`),
+    UNIQUE KEY (`email`)
+)  ENGINE=INNODB AUTO_INCREMENT=1;
+
+select * from tbl_buyer;
+
+-- -----------------------------------------------------
+-- table `e-comm-business`.`tbl_order_history`
+-- -----------------------------------------------------
 
