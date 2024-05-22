@@ -1,19 +1,14 @@
 package com.e.comm.business.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tbl_product_stock_info", schema = "e-comm-business")
@@ -23,7 +18,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductStockInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -32,9 +26,24 @@ public class ProductStockInfo {
     @JoinColumn(name = "id")
     private Product product;
 
-    @Column(name = "inStockQuantity")
-    private int in_stock_quantity;
+    @Column(name = " in_stock_quantity")
+    private int inStockQuantity;
 
-    @Column(name = "maximumOrderCapacityPerBuyer")
-    private int maximum_order_capacity_per_buyer;
+    @Column(name = "maximum_order_capacity_per_buyer")
+    private int maximumOrderCapacityPerBuyer;
+
+    @Column(name = "unit_definition")
+    private int unitDefinition;
+
+    @Column(name = "price_per_unit")
+    private BigDecimal pricePerUnit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency_type", length = 3)
+    @Size(min = 3, max = 3)
+    private CurrencyType currencyType;
+
+    public enum CurrencyType {
+        BDT;
+    }
 }

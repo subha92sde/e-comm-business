@@ -6,10 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Transient;
+import jakarta.persistence.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,6 +20,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tbl_product", schema = "e-comm-business")
@@ -47,6 +51,10 @@ public class Product {
     @Column(name = "active", length = 3)
     @Size(min = 2, max = 3)
     private ProductStatus active;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    ProductStockInfo productStockInfo;
 
     public enum ProductStatus {
         yes, no;
@@ -94,5 +102,60 @@ public class Product {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Transient
+    private int inStockQuantity;
+
+    public int getInStockQuantity() {
+        return this.getProductStockInfo().getInStockQuantity();
+    }
+
+    public void setInStockQuantity(int inStockQuantity) {
+        this.inStockQuantity = inStockQuantity;
+    }
+
+    @Transient
+    private int maximumOrderCapacityPerBuyer;
+
+    public int getMaximumOrderCapacityPerBuyer() {
+        return this.getProductStockInfo().getMaximumOrderCapacityPerBuyer();
+    }
+
+    public void setMaximumOrderCapacityPerBuyer(int maximumOrderCapacityPerBuyer) {
+        this.maximumOrderCapacityPerBuyer = maximumOrderCapacityPerBuyer;
+    }
+
+    @Transient
+    private BigDecimal pricePerUnit;
+
+    public BigDecimal getPricePerUnit() {
+        return this.getProductStockInfo().getPricePerUnit();
+    }
+
+    public void setPricePerUnit(BigDecimal pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
+
+    @Transient
+    private int unitDefinition;
+
+    public int getUnitDefinition() {
+        return this.getProductStockInfo().getUnitDefinition();
+    }
+
+    public void setUnitDefinition(int unitDefinition) {
+        this.unitDefinition = unitDefinition;
+    }
+
+    @Transient
+    private ProductStockInfo.CurrencyType currencyType;
+
+    public ProductStockInfo.CurrencyType getCurrencyType() {
+        return this.getProductStockInfo().getCurrencyType();
+    }
+
+    public void setCurrencyType(ProductStockInfo.CurrencyType currencyType) {
+        this.currencyType = currencyType;
     }
 }
