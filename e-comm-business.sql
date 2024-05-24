@@ -81,6 +81,24 @@ CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_buyer` (
 select * from tbl_buyer;
 
 -- -----------------------------------------------------
+-- table `e-comm-business`.`tbl_buyer_wishlist`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_buyer_wishlist` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `buyer_id` BIGINT NOT NULL,
+    `product_id` BIGINT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`buyer_id`)
+        REFERENCES `tbl_buyer` (`id`),
+    FOREIGN KEY (`product_id`)
+        REFERENCES `tbl_product` (`id`),
+    UNIQUE KEY (`buyer_id` , `product_id`)
+)  ENGINE=INNODB AUTO_INCREMENT=1;
+
+select * from tbl_buyer_wishlist;
+
+-- -----------------------------------------------------
 -- table `e-comm-business`.`tbl_order_history`
 -- -----------------------------------------------------
 
@@ -98,9 +116,11 @@ FROM
         LEFT JOIN
     tbl_brand b ON b.id = p.brand_id;
     
-select count(*) as total_row from product_tbl;
+select count(*) as total_row from tbl_product;
 
 ########################################################
+
+select * from tbl_buyer_wishlist;
 
 
 
