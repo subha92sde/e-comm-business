@@ -8,10 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Transient;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,6 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_product", schema = "e-comm-business")
@@ -59,6 +62,10 @@ public class Product {
     public enum ProductStatus {
         yes, no;
     }
+
+    @OneToMany(targetEntity = BuyerWishlist.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private List<BuyerWishlist> buyerWishlists;
 
     @Transient
     private Long categoryId;
