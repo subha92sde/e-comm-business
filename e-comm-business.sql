@@ -99,8 +99,26 @@ CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_buyer_wishlist` (
 select * from tbl_buyer_wishlist;
 
 -- -----------------------------------------------------
--- table `e-comm-business`.`tbl_order_history`
+-- table `e-comm-business`.`tbl_order_detail`
 -- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `e-comm-business`.`tbl_order_detail` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `buyer_id` BIGINT NOT NULL,
+    `product_id` BIGINT NOT NULL,
+    `unit` INT NOT NULL,
+    `total_price` DECIMAL(7 , 2 ) NOT NULL,
+    `order_status` ENUM('sold') NOT NULL DEFAULT 'sold',
+    `placed_at` TIMESTAMP NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`buyer_id`)
+        REFERENCES `tbl_buyer` (`id`),
+    FOREIGN KEY (`product_id`)
+        REFERENCES `tbl_product` (`id`)
+)  ENGINE=INNODB AUTO_INCREMENT=1;
+
+select * from tbl_order_detail;
+
+select sum(tbl_order_detail.total_price) from tbl_order_detail;
 
 ########################################################
 
@@ -119,8 +137,6 @@ FROM
 select count(*) as total_row from tbl_product;
 
 ########################################################
-
-select * from tbl_buyer_wishlist;
 
 
 

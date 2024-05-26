@@ -67,6 +67,10 @@ public class Product {
     @JoinColumn(name = "product_id")
     private List<BuyerWishlist> buyerWishlists;
 
+    @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private List<OrderDetail> orderDetails;
+
     @Transient
     private Long categoryId;
 

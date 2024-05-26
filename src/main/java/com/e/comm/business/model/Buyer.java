@@ -41,4 +41,8 @@ public class Buyer {
     @OneToMany(targetEntity = BuyerWishlist.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "buyer_id")
     private List<BuyerWishlist> buyerWishlists;
+
+    @OneToMany(targetEntity = OrderDetail.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "buyer_id")
+    private List<OrderDetail> orderDetails;
 }
